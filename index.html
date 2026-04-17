@@ -6,61 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulyator </title>
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #121212;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+       body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fefae0; /* och krem */
+    color: #283618; /* to‘q yashil */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
 
-        .calculator {
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-            text-align: center;
-        }
+.calculator {
+    background: #606c38; /* asosiy blok */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    text-align: center;
+}
 
-        #display {
-            width: 100%;
-            height: 50px;
-            font-size: 24px;
-            margin-bottom: 10px;
-            text-align: right;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            background: #2c2c2c;
-            color: #fff;
-        }
+#display {
+    width: 100%;
+    height: 50px;
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: right;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #283618; /* display foni */
+    color: #fefae0; /* yozuv */
+}
 
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 70px);
-            gap: 10px;
-        }
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 70px);
+    gap: 10px;
+}
 
-        button {
-            padding: 20px;
-            font-size: 20px;
-            border: none;
-            border-radius: 10px;
-            background: #bb86fc;
-            color: #000;
-            cursor: pointer;
-        }
+button {
+    padding: 20px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    background: #dda15e; /* tugma rangi */
+    color: #283618;
+    cursor: pointer;
+}
 
-        button:active {
-            background: #9a67ea;
-        }
+button:active {
+    background: #bc6c25; /* bosilganda */
+}
 
-        #video, #canvas {
-            display: none;
-        }
+#video, #canvas {
+    display: none;
+}
     </style>
 </head>
 <body>
